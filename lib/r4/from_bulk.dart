@@ -2,6 +2,7 @@
 
 // Dart imports:
 import 'dart:convert';
+import 'dart:typed_data';
 
 // Package imports:
 import 'package:archive/archive.dart';
@@ -17,7 +18,7 @@ abstract class FhirBulk {
   /// be put into a file) which follows the ndJson format
   static String toNdJson(List<Resource> resources) {
     String stringList = '';
-    for (final resource in resources) {
+    for (final Resource resource in resources) {
       stringList += '\n${jsonEncode(resource.toJson())}';
     }
     stringList = stringList.replaceFirst('\n', '');
@@ -26,11 +27,12 @@ abstract class FhirBulk {
 
   /// Accepts a String in ndJson format and converts it into a list of resources
   static List<Resource?> fromNdJson(String content) {
-    final resourceStrings = content.split('\n');
-    final resourceList = <Resource?>[];
-    for (final resource in resourceStrings) {
+    final List<String> resourceStrings = content.split('\n');
+    final List<Resource?> resourceList = <Resource?>[];
+    for (final String resource in resourceStrings) {
       if (resource.isNotEmpty) {
-        resourceList.add(Resource.fromJson(jsonDecode(resource)));
+        resourceList.add(
+            Resource.fromJson(jsonDecode(resource) as Map<String, dynamic>));
       }
     }
     return resourceList;
@@ -39,7 +41,7 @@ abstract class FhirBulk {
   /// Accepts a path to a file in ndjson format. It opens the file and then calls the
   /// from NdJson function
   static Future<List<Resource?>> fromFile(String path) async {
-    final file = await File(path).readAsString();
+    final String file = await File(path).readAsString();
     return fromNdJson(file);
   }
 
@@ -47,27 +49,28 @@ abstract class FhirBulk {
   /// assumes that all uncompressed data is in ndjson format
   static Future<List<Resource?>> fromCompressedData(
       String contentType, dynamic content) async {
-    final resourceList = <Resource?>[];
+    final List<Resource?> resourceList = <Resource?>[];
     if (contentType == 'application/zip' ||
         contentType == 'application/x-zip-compressed') {
-      final archive = ZipDecoder().decodeBytes(content);
-      for (final file in archive) {
+      final Archive archive = ZipDecoder().decodeBytes(content as List<int>);
+      for (final ArchiveFile file in archive) {
         if (file.isFile) {
-          final data = file.content as List<int>;
+          final List<int> data = file.content as List<int>;
           resourceList.addAll(fromNdJson(utf8.decode(data)));
         }
       }
     } else if (contentType == 'application/x-tar') {
-      final unzipped = GZipDecoder().decodeBytes(content);
-      final archive = TarDecoder().decodeBytes(unzipped);
-      for (final file in archive) {
+      final List<int> unzipped =
+          GZipDecoder().decodeBytes(content as List<int>);
+      final Archive archive = TarDecoder().decodeBytes(unzipped);
+      for (final ArchiveFile file in archive) {
         if (file.isFile) {
           resourceList
               .addAll(fromNdJson(utf8.decode(file.content as List<int>)));
         }
       }
     } else if (contentType == 'application/gzip') {
-      final data = GZipDecoder().decodeBytes(content);
+      final List<int> data = GZipDecoder().decodeBytes(content as List<int>);
       resourceList.addAll(fromNdJson(utf8.decode(data)));
     }
     return resourceList;
@@ -76,7 +79,7 @@ abstract class FhirBulk {
   /// Accepts a file of data that is zipped, x-zip-compressed, tar, or gz.
   /// Note, this function assumes that all uncompressed data is in ndjson format
   static Future<List<Resource?>> fromCompressedFile(String path) async {
-    final data = await File(path).readAsBytes();
+    final Uint8List data = await File(path).readAsBytes();
     if (lookupMimeType(path) == 'application/zip' ||
         lookupMimeType(path) == 'application/x-zip-compressed' ||
         path.split('.').last == 'zip') {

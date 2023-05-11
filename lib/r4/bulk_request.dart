@@ -1,4 +1,4 @@
-// ignore_for_file: invalid_annotation_target
+// ignore_for_file: avoid_dynamic_calls
 
 // Dart imports:
 import 'dart:convert';
@@ -52,19 +52,19 @@ class BulkRequest with _$BulkRequest {
     headers['accept'] = 'application/fhir+json';
     headers['prefer'] = 'respond-async';
     return map(
-      patient: (m) async => await _request(
+      patient: (_BulkPatientRequest request) async => _request(
         RestfulRequest.get_,
         '$base/Patient/\$export${_parameters(since, types)}',
         headers,
         client,
       ),
-      group: (m) async => await _request(
+      group: (_BulkGroupRequest request) async => _request(
         RestfulRequest.get_,
-        '$base/Group/${m.id}/\$export${_parameters(since, types)}',
+        '$base/Group/${request.id}/\$export${_parameters(since, types)}',
         headers,
         client,
       ),
-      system: (m) async => await _request(
+      system: (_BulkSystemRequest request) async => _request(
         RestfulRequest.get_,
         '$base/\$export${_parameters(since, types)}',
         headers,
@@ -85,7 +85,7 @@ class BulkRequest with _$BulkRequest {
     }
     if (types != null) {
       typeString = sinceString.isEmpty ? '?' : '&';
-      for (final type in types) {
+      for (final WhichResource type in types) {
         if (type.resourceType != null) {
           typeString += typeString.length == 1 ? '_type=' : ',';
           typeString +=
@@ -104,7 +104,7 @@ class BulkRequest with _$BulkRequest {
     Client? client,
   ) async {
     client ??= Client();
-    List<Resource?> returnList = <Resource?>[];
+    final List<Resource?> returnList = <Resource?>[];
     String? currentLocation;
 
     if (kTestMode) {
@@ -112,7 +112,7 @@ class BulkRequest with _$BulkRequest {
     }
 
     try {
-      final resultWithLocation =
+      final Response resultWithLocation =
           await client.get(Uri.parse(uri), headers: headers);
       if (_errorCodes.keys.contains(resultWithLocation.statusCode)) {
         return _failedHttp(resultWithLocation.statusCode, resultWithLocation);
@@ -139,17 +139,20 @@ class BulkRequest with _$BulkRequest {
               diagnostics: 'Exception: $e');
         }
         if (retryAfter > 0) {
-          await Future.delayed(Duration(seconds: retryAfter));
+          await Future<dynamic>.delayed(Duration(seconds: retryAfter));
         }
       }
     }
 
-    final resourceLinks = jsonDecode(responseLinks.body)['output'] ?? [];
+    final List<Map<String, dynamic>> resourceLinks =
+        jsonDecode(responseLinks.body)['output']
+                as List<Map<String, dynamic>>? ??
+            <Map<String, dynamic>>[];
 
-    for (final link in resourceLinks) {
+    for (final Map<String, dynamic> link in resourceLinks) {
       try {
-        final ndjsonList =
-            await client.get(Uri.parse(link['url']), headers: headers);
+        final Response ndjsonList = await client
+            .get(Uri.parse(link['url'] as String), headers: headers);
         returnList.addAll(FhirBulk.fromNdJson(ndjsonList.body));
       } catch (e) {
         return _operationOutcome('Failed to download from ${link['url']}',
@@ -161,9 +164,9 @@ class BulkRequest with _$BulkRequest {
 
   /// Creates and returns an OperationOutcome if the http request is unsuccessful
   List<OperationOutcome> _failedHttp(int statusCode, Response result) {
-    return [
+    return <OperationOutcome>[
       OperationOutcome(
-        issue: [
+        issue: <OperationOutcomeIssue>[
           OperationOutcomeIssue(
             severity: FhirCode('error'),
             code: FhirCode('unknown'),
@@ -183,9 +186,9 @@ class BulkRequest with _$BulkRequest {
     String issue, {
     String? diagnostics,
   }) =>
-      [
+      <OperationOutcome>[
         OperationOutcome(
-          issue: [
+          issue: <OperationOutcomeIssue>[
             OperationOutcomeIssue(
               severity: FhirCode('error'),
               code: FhirCode('value'),
@@ -197,7 +200,7 @@ class BulkRequest with _$BulkRequest {
       ];
 
   /// Map of error codes to be able to return more useful information than just a number
-  static const _errorCodes = {
+  static const Map<int, String> _errorCodes = <int, String>{
     400: 'Bad Request',
     401: 'Not Authorized',
     404: 'Not Found',
