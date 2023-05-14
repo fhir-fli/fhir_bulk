@@ -9,17 +9,18 @@ Future<void> main() async {
 }
 
 Future<void> compressTest() async {
-  var resources = await FhirBulk.fromFile('./test/ndjson/Account.ndjson');
-  var stringList = '';
-  for (final resource in resources) {
-    stringList += '\n${jsonEncode(resource?.toJson())}';
+  List<Resource> resources =
+      await FhirBulk.fromFile('./test/ndjson/Account.ndjson');
+  String stringList = '';
+  for (final Resource resource in resources) {
+    stringList += '\n${jsonEncode(resource.toJson())}';
   }
   stringList = stringList.replaceFirst('\n', '');
 
   resources = await FhirBulk.fromFile('./test/ndjson/MedicationRequest.ndjson');
   stringList = '';
-  for (final resource in resources) {
-    stringList += '\n${jsonEncode(resource?.toJson())}';
+  for (final Resource resource in resources) {
+    stringList += '\n${jsonEncode(resource.toJson())}';
   }
   stringList = stringList.replaceFirst('\n', '');
 

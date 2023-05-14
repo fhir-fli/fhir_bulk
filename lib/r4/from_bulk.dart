@@ -26,9 +26,9 @@ abstract class FhirBulk {
   }
 
   /// Accepts a String in ndJson format and converts it into a list of resources
-  static List<Resource?> fromNdJson(String content) {
+  static List<Resource> fromNdJson(String content) {
     final List<String> resourceStrings = content.split('\n');
-    final List<Resource?> resourceList = <Resource?>[];
+    final List<Resource> resourceList = <Resource>[];
     for (final String resource in resourceStrings) {
       if (resource.isNotEmpty) {
         resourceList.add(
@@ -40,16 +40,16 @@ abstract class FhirBulk {
 
   /// Accepts a path to a file in ndjson format. It opens the file and then calls the
   /// from NdJson function
-  static Future<List<Resource?>> fromFile(String path) async {
+  static Future<List<Resource>> fromFile(String path) async {
     final String file = await File(path).readAsString();
     return fromNdJson(file);
   }
 
   /// Accepts data that is zipped, x-zip-compressed, tar, or gz. Note, this function
   /// assumes that all uncompressed data is in ndjson format
-  static Future<List<Resource?>> fromCompressedData(
+  static Future<List<Resource>> fromCompressedData(
       String contentType, dynamic content) async {
-    final List<Resource?> resourceList = <Resource?>[];
+    final List<Resource> resourceList = <Resource>[];
     if (contentType == 'application/zip' ||
         contentType == 'application/x-zip-compressed') {
       final Archive archive = ZipDecoder().decodeBytes(content as List<int>);
@@ -78,7 +78,7 @@ abstract class FhirBulk {
 
   /// Accepts a file of data that is zipped, x-zip-compressed, tar, or gz.
   /// Note, this function assumes that all uncompressed data is in ndjson format
-  static Future<List<Resource?>> fromCompressedFile(String path) async {
+  static Future<List<Resource>> fromCompressedFile(String path) async {
     final Uint8List data = await File(path).readAsBytes();
     if (lookupMimeType(path) == 'application/zip' ||
         lookupMimeType(path) == 'application/x-zip-compressed' ||
