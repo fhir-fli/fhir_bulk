@@ -20,8 +20,8 @@ void requestTest() {
         base: Uri.parse('http://hapi.fhir.org/baseR4'),
       );
       final response = await request.request(headers: {'test': 'header'});
-      expect((response[0] as OperationOutcome).issue[0].details?.text,
-          'http://hapi.fhir.org/baseR4/Patient/\$export');
+      expect((response[0] as OperationOutcome?)?.issue[0].details?.text,
+          r'http://hapi.fhir.org/baseR4/Patient/$export');
     });
     test('Patient Bulk Request with Allergies, Immunization, & Medication',
         () async {
@@ -33,8 +33,8 @@ void requestTest() {
             WhichResource(R4ResourceType.Immunization, null),
           ]);
       final response = await request.request(headers: {'test': 'header'});
-      expect((response[0] as OperationOutcome).issue[0].details?.text,
-          'http://hapi.fhir.org/baseR4/Patient/\$export?_type=AllergyIntolerance,Medication,Immunization');
+      expect((response[0] as OperationOutcome?)?.issue[0].details?.text,
+          r'http://hapi.fhir.org/baseR4/Patient/$export?_type=AllergyIntolerance,Medication,Immunization');
     });
 
     test('Patient Bulk Request with Practioner & Organization Ids', () async {
@@ -45,8 +45,8 @@ void requestTest() {
             WhichResource(R4ResourceType.Organization, FhirId('ghijkl')),
           ]);
       final response = await request.request(headers: {'test': 'header'});
-      expect((response[0] as OperationOutcome).issue[0].details?.text,
-          'http://hapi.fhir.org/baseR4/Patient/\$export?_type=Practitioner/abcdef,Organization/ghijkl');
+      expect((response[0] as OperationOutcome?)?.issue[0].details?.text,
+          r'http://hapi.fhir.org/baseR4/Patient/$export?_type=Practitioner/abcdef,Organization/ghijkl');
     });
     test('Patient Bulk Request with Practioner & Organization Ids, since',
         () async {
@@ -58,8 +58,8 @@ void requestTest() {
             WhichResource(R4ResourceType.Organization, FhirId('ghijkl')),
           ]);
       final response = await request.request(headers: {'test': 'header'});
-      expect((response[0] as OperationOutcome).issue[0].details?.text,
-          'http://hapi.fhir.org/baseR4/Patient/\$export?_since=2021-01-01&_type=Practitioner/abcdef,Organization/ghijkl');
+      expect((response[0] as OperationOutcome?)?.issue[0].details?.text,
+          r'http://hapi.fhir.org/baseR4/Patient/$export?_since=2021-01-01&_type=Practitioner/abcdef,Organization/ghijkl');
     });
   });
 
@@ -70,8 +70,8 @@ void requestTest() {
         id: FhirId('12345'),
       );
       final response = await request.request(headers: {'test': 'header'});
-      expect((response[0] as OperationOutcome).issue[0].details?.text,
-          'http://hapi.fhir.org/baseR4/Group/12345/\$export');
+      expect((response[0] as OperationOutcome?)?.issue[0].details?.text,
+          r'http://hapi.fhir.org/baseR4/Group/12345/$export');
     });
   });
 
@@ -81,8 +81,8 @@ void requestTest() {
         base: Uri.parse('http://hapi.fhir.org/baseR4'),
       );
       final response = await request.request(headers: {'test': 'header'});
-      expect((response[0] as OperationOutcome).issue[0].details?.text,
-          'http://hapi.fhir.org/baseR4/\$export');
+      expect((response[0] as OperationOutcome?)?.issue[0].details?.text,
+          r'http://hapi.fhir.org/baseR4/$export');
     });
   });
 
@@ -112,6 +112,6 @@ void requestTest() {
         fileString += jsonEncode(res?.toJson());
       }
       expect(fileString, bulkDownload);
-    }, timeout: Timeout(Duration(minutes: 2)));
+    }, timeout: const Timeout(Duration(minutes: 2)));
   });
 }
