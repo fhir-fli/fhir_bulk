@@ -1,14 +1,14 @@
-// ignore_for_file: invalid_annotation_target
+// ignore_for_file: invalid_annotation_target, always_specify_types
 
 // Dart imports:
 import 'dart:convert';
 
 // Package imports:
 import 'package:fhir/r4.dart';
+import 'package:fhir_bulk/r4.dart';
 import 'package:test/test.dart';
 
 // Project imports:
-import 'package:fhir_bulk/r4.dart';
 import 'bulk_download.dart';
 
 void requestTest() {
@@ -16,7 +16,7 @@ void requestTest() {
 
   group('FHIR Bulk Request Patient:', () {
     test('Basic Patient Bulk Request', () async {
-      final request = BulkRequest.patient(
+      final BulkRequest request = BulkRequest.patient(
         base: Uri.parse('http://hapi.fhir.org/baseR4'),
       );
       final response = await request.request(headers: {'test': 'header'});
