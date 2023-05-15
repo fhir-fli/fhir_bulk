@@ -144,19 +144,26 @@ class BulkRequest with _$BulkRequest {
       }
     }
 
-    final List<Map<String, dynamic>> resourceLinks =
-        jsonDecode(responseLinks.body)['output']
-                as List<Map<String, dynamic>>? ??
-            <Map<String, dynamic>>[];
+    final List<dynamic> resourceLinks =
+        jsonDecode(responseLinks.body)['output'] as List<dynamic>? ??
+            <dynamic>[];
 
-    for (final Map<String, dynamic> link in resourceLinks) {
-      try {
-        final Response ndjsonList = await client
-            .get(Uri.parse(link['url'] as String), headers: headers);
-        returnList.addAll(FhirBulk.fromNdJson(ndjsonList.body));
-      } catch (e) {
-        return _operationOutcome('Failed to download from ${link['url']}',
-            diagnostics: 'Exception: $e');
+    for (final dynamic link in resourceLinks) {
+      final Uri? newLink = Uri.tryParse(link['url'].toString());
+      if (newLink == null) {
+        returnList
+            .add(_operationOutcome('Failed to download, url specified as: '
+                    '${link["url"]} is not a Uri')
+                .first);
+      } else {
+        try {
+          final Response ndjsonList =
+              await client.get(newLink, headers: headers);
+          returnList.addAll(FhirBulk.fromNdJson(ndjsonList.body));
+        } catch (e) {
+          return _operationOutcome('Failed to download from ${link['url']}',
+              diagnostics: 'Exception: $e');
+        }
       }
     }
     return returnList;
