@@ -1,5 +1,10 @@
 # fhir_bulk
 
+## [0.10.0]
+
+* Updated dependencies
+* Changed some type casting
+
 ## [0.9.5]
 
 * Updated dependencies
