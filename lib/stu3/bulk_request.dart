@@ -177,7 +177,8 @@ class BulkRequest with _$BulkRequest {
           OperationOutcomeIssue(
             severity: OperationOutcomeIssueSeverity.error,
             code: OperationOutcomeIssueCode.unknown,
-            details: CodeableConcept(text: 'Failed to make restful request'),
+            details:
+                const CodeableConcept(text: 'Failed to make restful request'),
             diagnostics: '\nStatus Code: $statusCode -'
                 ' ${_errorCodes[statusCode]}'
                 '\nResult headers: ${result.headers}'
