@@ -1,5 +1,9 @@
 # fhir_bulk
 
+## [0.11.1]
+
+* updated dependencies
+
 ## [0.11.0]
 
 * Dart 3.0.0!
