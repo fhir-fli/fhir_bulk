@@ -9,7 +9,7 @@ environment:
 
 dependencies:
   archive: ^3.3.7
-  fhir: ^0.11.1
+  fhir: ^0.11.2
   # fhir:
   #   path: ../fhir
   freezed_annotation: ^2.2.0
