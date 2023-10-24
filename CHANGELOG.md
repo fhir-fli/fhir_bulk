@@ -1,5 +1,9 @@
 # fhir_bulk
 
+## [0.11.4]
+
+* Added ability to convert ndjson into .zip, .gz, or .tar.gz files
+
 ## [0.11.3]
 
 * updated dependencies

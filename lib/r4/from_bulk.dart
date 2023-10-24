@@ -93,4 +93,56 @@ abstract class FhirBulk {
     }
     return <Resource>[];
   }
+
+  /// This does the reverse of the above. It takes a String (which it presumes
+  /// is ndJson but could really be anything), and attempts to convert it into
+  /// a Zip file. As long as it it successful, that file is returned.
+  static Future<File?> toZipFile(String ndJsonString,
+      [String fileName = 'fhirData.ndjson']) async {
+    final ArchiveFile file =
+        ArchiveFile(fileName, ndJsonString.length, utf8.encode(ndJsonString));
+    final Archive archive = Archive();
+    archive.addFile(file);
+    final List<int>? encodedArchive = ZipEncoder().encode(archive);
+    if (encodedArchive == null) {
+      return null;
+    } else {
+      return File('fhirData.zip').writeAsBytes(encodedArchive);
+    }
+  }
+
+  /// This does the reverse of the above. It takes a String (which it presumes
+  /// is ndJson but could really be anything), and attempts to convert it into
+  /// a GZip file. As long as it it successful, that file is returned.
+  static Future<File?> toGZipFile(String ndJsonString,
+      [String fileName = 'fhirData.ndjson']) async {
+    final ArchiveFile file =
+        ArchiveFile(fileName, ndJsonString.length, utf8.encode(ndJsonString));
+    final Archive archive = Archive();
+    archive.addFile(file);
+    final List<int>? encodedArchive = GZipEncoder().encode(archive);
+    if (encodedArchive == null) {
+      return null;
+    } else {
+      return File('fhirData.gz').writeAsBytes(encodedArchive);
+    }
+  }
+
+  /// This does the reverse of the above. It takes a String (which it presumes
+  /// is ndJson but could really be anything), and attempts to convert it into
+  /// a tar.gz file. As long as it it successful, that file is returned.
+  static Future<File?> toTarGzFile(String ndJsonString,
+      [String fileName = 'fhirData.ndjson']) async {
+    final ArchiveFile file =
+        ArchiveFile(fileName, ndJsonString.length, utf8.encode(ndJsonString));
+    final Archive archive = Archive();
+    archive.addFile(file);
+    final List<int> tarredArchive = TarEncoder().encode(archive);
+    final List<int>? encodedArchive = GZipEncoder().encode(tarredArchive);
+    if (encodedArchive == null) {
+      return null;
+    } else {
+      return File('fhirData.tar.gz').writeAsBytes(encodedArchive);
+    }
+  }
 }
