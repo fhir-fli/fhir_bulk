@@ -9,7 +9,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:http/http.dart';
 
 // Project imports:
-import 'from_bulk.dart';
+import 'fhir_bulk.dart';
 import 'which_resource.dart';
 
 part 'bulk_request.freezed.dart';

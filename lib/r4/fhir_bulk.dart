@@ -94,55 +94,80 @@ abstract class FhirBulk {
     return <Resource>[];
   }
 
-  /// This does the reverse of the above. It takes a String (which it presumes
-  /// is ndJson but could really be anything), and attempts to convert it into
-  /// a Zip file. As long as it it successful, that file is returned.
-  static Future<File?> toZipFile(String ndJsonString,
-      [String fileName = 'fhirData.ndjson']) async {
-    final ArchiveFile file =
-        ArchiveFile(fileName, ndJsonString.length, utf8.encode(ndJsonString));
+  /// This function converts a map of ndJson Strings (really any strings, but
+  /// it was made for ndJson strings), and converts them into the bytes for a
+  /// .zip file.
+  ///
+  /// Each function takes a Map<String, String> value as an argument. It assumes
+  /// that each value should be stored in a different file, and the key is the
+  /// filename with an ndjson extension.
+  ///
+  /// Thus if you pass a map of
+  /// {patients: patientNdJson, practitioner: practitionerNdJson}
+  /// The archive will include patients.ndjson and practitioner.ndjson
+  ///
+  /// Lastly, these functions do not return the actual file, so you will
+  /// have to do a File('fhirData.zip').writeAsBytes(value) in order to store
+  /// the result somewhere.
+  static Future<List<int>?> toZipFile(Map<String, String> ndJsonStrings) async {
     final Archive archive = Archive();
-    archive.addFile(file);
-    final List<int>? encodedArchive = ZipEncoder().encode(archive);
-    if (encodedArchive == null) {
-      return null;
-    } else {
-      return File('fhirData.zip').writeAsBytes(encodedArchive);
-    }
+    ndJsonStrings.forEach((String key, String value) {
+      final ArchiveFile file =
+          ArchiveFile('$key.ndjson', value.length, utf8.encode(value));
+      archive.addFile(file);
+    });
+    return ZipEncoder().encode(archive);
   }
 
-  /// This does the reverse of the above. It takes a String (which it presumes
-  /// is ndJson but could really be anything), and attempts to convert it into
-  /// a GZip file. As long as it it successful, that file is returned.
-  static Future<File?> toGZipFile(String ndJsonString,
-      [String fileName = 'fhirData.ndjson']) async {
-    final ArchiveFile file =
-        ArchiveFile(fileName, ndJsonString.length, utf8.encode(ndJsonString));
+  /// This function converts a map of ndJson Strings (really any strings, but
+  /// it was made for ndJson strings), and converts them into the bytes for a
+  /// .gz file.
+  ///
+  /// Each function takes a Map<String, String> value as an argument. It assumes
+  /// that each value should be stored in a different file, and the key is the
+  /// filename (with the appropriate extensions).
+  ///
+  /// Thus if you pass a map of
+  /// {patients: patientNdJson, practitioner: practitionerNdJson}
+  /// The archive will include patients.ndjson and practitioner.ndjson
+  ///
+  /// Lastly, these functions do not return the actual file, so you will
+  /// have to do a File('fhirData.gz').writeAsBytes(value) in order to store
+  /// the result somewhere.
+  static List<int>? toGZipFile(Map<String, String> ndJsonStrings) {
     final Archive archive = Archive();
-    archive.addFile(file);
-    final List<int>? encodedArchive = GZipEncoder().encode(archive);
-    if (encodedArchive == null) {
-      return null;
-    } else {
-      return File('fhirData.gz').writeAsBytes(encodedArchive);
-    }
+    ndJsonStrings.forEach((String key, String value) {
+      final ArchiveFile file =
+          ArchiveFile('$key.ndjson', value.length, utf8.encode(value));
+      archive.addFile(file);
+    });
+    return GZipEncoder().encode(archive);
   }
 
-  /// This does the reverse of the above. It takes a String (which it presumes
-  /// is ndJson but could really be anything), and attempts to convert it into
-  /// a tar.gz file. As long as it it successful, that file is returned.
-  static Future<File?> toTarGzFile(String ndJsonString,
-      [String fileName = 'fhirData.ndjson']) async {
-    final ArchiveFile file =
-        ArchiveFile(fileName, ndJsonString.length, utf8.encode(ndJsonString));
+  /// This function converts a map of ndJson Strings (really any strings, but
+  /// it was made for ndJson strings), and converts them into the bytes for a
+  /// .tar.gz file.
+  ///
+  /// Each function takes a Map<String, String> value as an argument. It assumes
+  /// that each value should be stored in a different file, and the key is the
+  /// filename (with the appropriate extensions).
+  ///
+  /// Thus if you pass a map of
+  /// {patients: patientNdJson, practitioner: practitionerNdJson}
+  /// The archive will include patients.ndjson and practitioner.ndjson
+  ///
+  /// Lastly, these functions do not return the actual file, so you will
+  /// have to do a File('fhirData.tar.gz').writeAsBytes(value) in order to store
+  /// the result somewhere.
+  static Future<List<int>?> toTarGzFile(
+      Map<String, String> ndJsonStrings) async {
     final Archive archive = Archive();
-    archive.addFile(file);
+    ndJsonStrings.forEach((String key, String value) {
+      final ArchiveFile file =
+          ArchiveFile('$key.ndjson', value.length, utf8.encode(value));
+      archive.addFile(file);
+    });
     final List<int> tarredArchive = TarEncoder().encode(archive);
-    final List<int>? encodedArchive = GZipEncoder().encode(tarredArchive);
-    if (encodedArchive == null) {
-      return null;
-    } else {
-      return File('fhirData.tar.gz').writeAsBytes(encodedArchive);
-    }
+    return GZipEncoder().encode(tarredArchive);
   }
 }
