@@ -12,7 +12,7 @@ part of 'bulk_request.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$BulkRequest {
@@ -141,11 +141,11 @@ class _$BulkRequestCopyWithImpl<$Res, $Val extends BulkRequest>
 }
 
 /// @nodoc
-abstract class _$$_BulkPatientRequestCopyWith<$Res>
+abstract class _$$BulkPatientRequestImplCopyWith<$Res>
     implements $BulkRequestCopyWith<$Res> {
-  factory _$$_BulkPatientRequestCopyWith(_$_BulkPatientRequest value,
-          $Res Function(_$_BulkPatientRequest) then) =
-      __$$_BulkPatientRequestCopyWithImpl<$Res>;
+  factory _$$BulkPatientRequestImplCopyWith(_$BulkPatientRequestImpl value,
+          $Res Function(_$BulkPatientRequestImpl) then) =
+      __$$BulkPatientRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -156,11 +156,11 @@ abstract class _$$_BulkPatientRequestCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BulkPatientRequestCopyWithImpl<$Res>
-    extends _$BulkRequestCopyWithImpl<$Res, _$_BulkPatientRequest>
-    implements _$$_BulkPatientRequestCopyWith<$Res> {
-  __$$_BulkPatientRequestCopyWithImpl(
-      _$_BulkPatientRequest _value, $Res Function(_$_BulkPatientRequest) _then)
+class __$$BulkPatientRequestImplCopyWithImpl<$Res>
+    extends _$BulkRequestCopyWithImpl<$Res, _$BulkPatientRequestImpl>
+    implements _$$BulkPatientRequestImplCopyWith<$Res> {
+  __$$BulkPatientRequestImplCopyWithImpl(_$BulkPatientRequestImpl _value,
+      $Res Function(_$BulkPatientRequestImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -171,7 +171,7 @@ class __$$_BulkPatientRequestCopyWithImpl<$Res>
     Object? types = freezed,
     Object? client = freezed,
   }) {
-    return _then(_$_BulkPatientRequest(
+    return _then(_$BulkPatientRequestImpl(
       base: null == base
           ? _value.base
           : base // ignore: cast_nullable_to_non_nullable
@@ -194,8 +194,8 @@ class __$$_BulkPatientRequestCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BulkPatientRequest extends _BulkPatientRequest {
-  const _$_BulkPatientRequest(
+class _$BulkPatientRequestImpl extends _BulkPatientRequest {
+  const _$BulkPatientRequestImpl(
       {required this.base,
       this.since,
       final List<WhichResource>? types,
@@ -226,10 +226,10 @@ class _$_BulkPatientRequest extends _BulkPatientRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BulkPatientRequest &&
+            other is _$BulkPatientRequestImpl &&
             (identical(other.base, base) || other.base == base) &&
             (identical(other.since, since) || other.since == since) &&
             const DeepCollectionEquality().equals(other._types, _types) &&
@@ -243,8 +243,8 @@ class _$_BulkPatientRequest extends _BulkPatientRequest {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BulkPatientRequestCopyWith<_$_BulkPatientRequest> get copyWith =>
-      __$$_BulkPatientRequestCopyWithImpl<_$_BulkPatientRequest>(
+  _$$BulkPatientRequestImplCopyWith<_$BulkPatientRequestImpl> get copyWith =>
+      __$$BulkPatientRequestImplCopyWithImpl<_$BulkPatientRequestImpl>(
           this, _$identity);
 
   @override
@@ -339,7 +339,7 @@ abstract class _BulkPatientRequest extends BulkRequest {
       {required final Uri base,
       final FhirDateTime? since,
       final List<WhichResource>? types,
-      final Client? client}) = _$_BulkPatientRequest;
+      final Client? client}) = _$BulkPatientRequestImpl;
   const _BulkPatientRequest._() : super._();
 
   @override
@@ -352,16 +352,16 @@ abstract class _BulkPatientRequest extends BulkRequest {
   Client? get client;
   @override
   @JsonKey(ignore: true)
-  _$$_BulkPatientRequestCopyWith<_$_BulkPatientRequest> get copyWith =>
+  _$$BulkPatientRequestImplCopyWith<_$BulkPatientRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_BulkGroupRequestCopyWith<$Res>
+abstract class _$$BulkGroupRequestImplCopyWith<$Res>
     implements $BulkRequestCopyWith<$Res> {
-  factory _$$_BulkGroupRequestCopyWith(
-          _$_BulkGroupRequest value, $Res Function(_$_BulkGroupRequest) then) =
-      __$$_BulkGroupRequestCopyWithImpl<$Res>;
+  factory _$$BulkGroupRequestImplCopyWith(_$BulkGroupRequestImpl value,
+          $Res Function(_$BulkGroupRequestImpl) then) =
+      __$$BulkGroupRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -373,11 +373,11 @@ abstract class _$$_BulkGroupRequestCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BulkGroupRequestCopyWithImpl<$Res>
-    extends _$BulkRequestCopyWithImpl<$Res, _$_BulkGroupRequest>
-    implements _$$_BulkGroupRequestCopyWith<$Res> {
-  __$$_BulkGroupRequestCopyWithImpl(
-      _$_BulkGroupRequest _value, $Res Function(_$_BulkGroupRequest) _then)
+class __$$BulkGroupRequestImplCopyWithImpl<$Res>
+    extends _$BulkRequestCopyWithImpl<$Res, _$BulkGroupRequestImpl>
+    implements _$$BulkGroupRequestImplCopyWith<$Res> {
+  __$$BulkGroupRequestImplCopyWithImpl(_$BulkGroupRequestImpl _value,
+      $Res Function(_$BulkGroupRequestImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -389,7 +389,7 @@ class __$$_BulkGroupRequestCopyWithImpl<$Res>
     Object? types = freezed,
     Object? client = freezed,
   }) {
-    return _then(_$_BulkGroupRequest(
+    return _then(_$BulkGroupRequestImpl(
       base: null == base
           ? _value.base
           : base // ignore: cast_nullable_to_non_nullable
@@ -416,8 +416,8 @@ class __$$_BulkGroupRequestCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BulkGroupRequest extends _BulkGroupRequest {
-  const _$_BulkGroupRequest(
+class _$BulkGroupRequestImpl extends _BulkGroupRequest {
+  const _$BulkGroupRequestImpl(
       {required this.base,
       required this.id,
       this.since,
@@ -451,10 +451,10 @@ class _$_BulkGroupRequest extends _BulkGroupRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BulkGroupRequest &&
+            other is _$BulkGroupRequestImpl &&
             (identical(other.base, base) || other.base == base) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.since, since) || other.since == since) &&
@@ -469,8 +469,9 @@ class _$_BulkGroupRequest extends _BulkGroupRequest {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BulkGroupRequestCopyWith<_$_BulkGroupRequest> get copyWith =>
-      __$$_BulkGroupRequestCopyWithImpl<_$_BulkGroupRequest>(this, _$identity);
+  _$$BulkGroupRequestImplCopyWith<_$BulkGroupRequestImpl> get copyWith =>
+      __$$BulkGroupRequestImplCopyWithImpl<_$BulkGroupRequestImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -565,7 +566,7 @@ abstract class _BulkGroupRequest extends BulkRequest {
       required final FhirId id,
       final FhirDateTime? since,
       final List<WhichResource>? types,
-      final Client? client}) = _$_BulkGroupRequest;
+      final Client? client}) = _$BulkGroupRequestImpl;
   const _BulkGroupRequest._() : super._();
 
   @override
@@ -579,16 +580,16 @@ abstract class _BulkGroupRequest extends BulkRequest {
   Client? get client;
   @override
   @JsonKey(ignore: true)
-  _$$_BulkGroupRequestCopyWith<_$_BulkGroupRequest> get copyWith =>
+  _$$BulkGroupRequestImplCopyWith<_$BulkGroupRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_BulkSystemRequestCopyWith<$Res>
+abstract class _$$BulkSystemRequestImplCopyWith<$Res>
     implements $BulkRequestCopyWith<$Res> {
-  factory _$$_BulkSystemRequestCopyWith(_$_BulkSystemRequest value,
-          $Res Function(_$_BulkSystemRequest) then) =
-      __$$_BulkSystemRequestCopyWithImpl<$Res>;
+  factory _$$BulkSystemRequestImplCopyWith(_$BulkSystemRequestImpl value,
+          $Res Function(_$BulkSystemRequestImpl) then) =
+      __$$BulkSystemRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -599,11 +600,11 @@ abstract class _$$_BulkSystemRequestCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BulkSystemRequestCopyWithImpl<$Res>
-    extends _$BulkRequestCopyWithImpl<$Res, _$_BulkSystemRequest>
-    implements _$$_BulkSystemRequestCopyWith<$Res> {
-  __$$_BulkSystemRequestCopyWithImpl(
-      _$_BulkSystemRequest _value, $Res Function(_$_BulkSystemRequest) _then)
+class __$$BulkSystemRequestImplCopyWithImpl<$Res>
+    extends _$BulkRequestCopyWithImpl<$Res, _$BulkSystemRequestImpl>
+    implements _$$BulkSystemRequestImplCopyWith<$Res> {
+  __$$BulkSystemRequestImplCopyWithImpl(_$BulkSystemRequestImpl _value,
+      $Res Function(_$BulkSystemRequestImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -614,7 +615,7 @@ class __$$_BulkSystemRequestCopyWithImpl<$Res>
     Object? types = freezed,
     Object? client = freezed,
   }) {
-    return _then(_$_BulkSystemRequest(
+    return _then(_$BulkSystemRequestImpl(
       base: null == base
           ? _value.base
           : base // ignore: cast_nullable_to_non_nullable
@@ -637,8 +638,8 @@ class __$$_BulkSystemRequestCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BulkSystemRequest extends _BulkSystemRequest {
-  const _$_BulkSystemRequest(
+class _$BulkSystemRequestImpl extends _BulkSystemRequest {
+  const _$BulkSystemRequestImpl(
       {required this.base,
       this.since,
       final List<WhichResource>? types,
@@ -669,10 +670,10 @@ class _$_BulkSystemRequest extends _BulkSystemRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BulkSystemRequest &&
+            other is _$BulkSystemRequestImpl &&
             (identical(other.base, base) || other.base == base) &&
             (identical(other.since, since) || other.since == since) &&
             const DeepCollectionEquality().equals(other._types, _types) &&
@@ -686,8 +687,8 @@ class _$_BulkSystemRequest extends _BulkSystemRequest {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BulkSystemRequestCopyWith<_$_BulkSystemRequest> get copyWith =>
-      __$$_BulkSystemRequestCopyWithImpl<_$_BulkSystemRequest>(
+  _$$BulkSystemRequestImplCopyWith<_$BulkSystemRequestImpl> get copyWith =>
+      __$$BulkSystemRequestImplCopyWithImpl<_$BulkSystemRequestImpl>(
           this, _$identity);
 
   @override
@@ -782,7 +783,7 @@ abstract class _BulkSystemRequest extends BulkRequest {
       {required final Uri base,
       final FhirDateTime? since,
       final List<WhichResource>? types,
-      final Client? client}) = _$_BulkSystemRequest;
+      final Client? client}) = _$BulkSystemRequestImpl;
   const _BulkSystemRequest._() : super._();
 
   @override
@@ -795,6 +796,6 @@ abstract class _BulkSystemRequest extends BulkRequest {
   Client? get client;
   @override
   @JsonKey(ignore: true)
-  _$$_BulkSystemRequestCopyWith<_$_BulkSystemRequest> get copyWith =>
+  _$$BulkSystemRequestImplCopyWith<_$BulkSystemRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
