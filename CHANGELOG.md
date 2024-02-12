@@ -1,5 +1,18 @@
 # fhir_bulk
 
+## [0.11.5]
+
+* Fixed it so it actually does convert ndjson into .zip, .gz, or .tar.gz files
+* Added this ability for dstu2, stu3, r4 and r5
+
+## [0.11.4]
+
+* Added ability to convert ndjson into .zip, .gz, or .tar.gz files
+
+## [0.11.3]
+
+* updated dependencies
+
 ## [0.11.2]
 
 * updated dependencies
