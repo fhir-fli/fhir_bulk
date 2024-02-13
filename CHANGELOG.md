@@ -1,5 +1,9 @@
 # fhir_bulk
 
+## [0.12.0]
+
+* Updated dependencies
+
 ## [0.11.5]
 
 * Fixed it so it actually does convert ndjson into .zip, .gz, or .tar.gz files
