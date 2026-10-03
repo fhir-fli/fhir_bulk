@@ -1,5 +1,42 @@
 # fhir_bulk
 
+## [0.13.0]
+
+- One Bulk Data package for every FHIR version, revived from the 2024
+  `fhir_bulk` (which carried a copy per version over the old `fhir`
+  package). The code is fhir_r4_bulk 0.12.0's, which was byte-identical in
+  fhir_r5_bulk and fhir_r6_bulk but for the resource-type enum; those three
+  become bindings over this package.
+- A binding supplies one `BulkModel<R>`: its version, its resource type
+  names, and a resource from and to JSON. Everything else reads resources
+  by element name through `fhir_node`: `FhirBulk<R>` and `NdjsonStream<R>`
+  are instances over a model (the archive helpers and the text streams
+  stay static), `BulkRequest<R>` returns `List<R>`, `BulkImportRequest<R>`
+  returns the server's OperationOutcome as `R`,
+  `BulkExportKickoff.fromParameters` takes any `FhirNode` Parameters,
+  `unknownTypes(model)` and `TypeFilter.resourceTypeKnown(model)` take
+  the model. `WhichResource` and `ImportFile` name the resource type as a
+  string; `BulkRequest.since` and `BulkRequestGroup.id` are strings.
+- `errorOperationOutcomeJson`: the one error-issue OperationOutcome shape,
+  as JSON.
+- A POST kick-off sends `_since` as `valueInstant`: the Bulk Data IG 2.0.0
+  OperationDefinition `export` types it `instant` (the typed client sent
+  `valueDateTime`). `_outputFormat`, `_type` and `_typeFilter` stay
+  `valueString`.
+- `BulkImportRequest` rejects an empty file list or a non-HTTP(S) file URL
+  with `ArgumentError` at runtime; they were asserts, which a release
+  build does not run.
+- No dependency on any fhir_r* package.
+
+## Carried from fhir_r4_bulk
+
+## [Unreleased in fhir_r4_bulk]
+
+- **Streaming NDJSON: `NdjsonStream.lines` (from a byte stream, chunked anyhow), `resources`, `encode` and `write` (to a sink, flushing every N lines).** The list-shaped `FhirBulk` helpers stay; they hold a whole file, which a server export cannot (fhirant REVIEW-2026-09-06 finding 34: 813k Observations as a list 5.1 GB, streamed 741 MB).
+- **Bulk Data Access IG 2.0.0 models a client and a server both read**: `BulkExportKickoff` (from a query map or a POSTed `Parameters`; repeated and comma-delimited values are one list, as export.html requires), `TypeFilter`, `BulkExportFile`, `BulkExportManifest` (checked against export.html's own example response body), `bulkOutputFormats`. The client now reads the complete-status body through `BulkExportManifest`.
+
+## The 2024 fhir_bulk, over the `fhir` package
+
 ## [0.12.0]
 
 * Updated dependencies
