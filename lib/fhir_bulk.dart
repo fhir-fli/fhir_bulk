@@ -7,10 +7,12 @@
 /// `fhir_r5_bulk`, `fhir_r6_bulk`); nothing here depends on a FHIR version.
 library;
 
+export 'package:fhir_node/fhir_node.dart'
+    show ResourceModel, errorOperationOutcomeJson;
+
 export 'src/bulk_export.dart';
 export 'src/bulk_import.dart';
 export 'src/bulk_model.dart';
 export 'src/bulk_models.dart';
 export 'src/fhir_bulk.dart';
 export 'src/ndjson_stream.dart';
-export 'src/operation_outcome.dart';

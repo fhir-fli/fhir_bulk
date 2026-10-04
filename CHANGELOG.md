@@ -26,7 +26,8 @@
 - `BulkImportRequest` rejects an empty file list or a non-HTTP(S) file URL
   with `ArgumentError` at runtime; they were asserts, which a release
   build does not run.
-- No dependency on any fhir_r* package.
+- No dependency on any fhir_r* package. `BulkModel` is fhir_node 0.6.1's
+  `ResourceModel`, and `errorOperationOutcomeJson` is re-exported from there.
 
 ## Carried from fhir_r4_bulk
 

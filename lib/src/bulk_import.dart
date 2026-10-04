@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:fhir_bulk/src/bulk_model.dart';
-import 'package:fhir_bulk/src/operation_outcome.dart';
 import 'package:fhir_node/fhir_node.dart';
 import 'package:http/http.dart';
 
